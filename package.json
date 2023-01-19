@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/google-workspace-migrator.js",
-  "module": "dist/google-workspace-migrator.esm.js",
   "scripts": {
     "build": "rollup -c rollup.config.js --bundleConfigAsCjs",
     "build:watch": "rollup -c rollup.config.js --bundleConfigAsCjs --watch",
@@ -13,6 +12,8 @@
   "author": "Elias Boukamza<ezain2t@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "@google-cloud/local-auth": "^2.1.1",
+    "google-auth-library": "^8.0.2",
     "googleapis": "^110.0.0"
   },
   "devDependencies": {

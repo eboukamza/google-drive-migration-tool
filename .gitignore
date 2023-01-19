@@ -13,3 +13,5 @@ node_modules
 Thumbs.db
 
 dist
+credentials.json
+token.json
