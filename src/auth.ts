@@ -25,7 +25,7 @@ const loadSavedCredentialsIfExist = async (): Promise<OAuth2Client | undefined> 
 }
 
 /**
- * Serializes credentials to a file comptible with GoogleAUth.fromJSON.
+ * Serializes credentials to a file compatible with GoogleAUth.fromJSON.
  *
  * @param {OAuth2Client} client
  * @return {Promise<void>}

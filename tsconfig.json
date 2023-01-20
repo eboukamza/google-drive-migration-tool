@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "target": "es2021",
     "allowSyntheticDefaultImports": true,
