@@ -22,3 +22,12 @@ https://developers.google.com/drive/api/quickstart/nodejs?hl=en_US#authorize_cre
 As described in the guide
 - Create Credentials of type OAuth client ID
 - Save the downloaded JSON file as `credentials.json`, and move the file to your working directory.
+
+
+
+References
+---
+
+Google Auth reference:
+https://github.com/googleapis/google-auth-library-nodejs#oauth2
+https://cloud.google.com/nodejs/docs/reference/google-auth-library/latest
