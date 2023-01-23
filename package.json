@@ -13,9 +13,11 @@
   "author": "Elias Boukamza<ezain2t@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@google-cloud/local-auth": "^2.1.1",
+    "dotenv": "^16.0.3",
     "google-auth-library": "^8.0.2",
     "googleapis": "^110.0.0",
+    "open": "^8.4.0",
+    "server-destroy": "^1.0.1",
     "tslib": "^2.4.1"
   },
   "devDependencies": {

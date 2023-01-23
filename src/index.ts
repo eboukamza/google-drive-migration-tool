@@ -1,5 +1,13 @@
 import { drive_v3 } from 'googleapis'
-import { authorize } from "./auth";
+import {
+  client,
+  generateToken,
+  loadTokenIfExists,
+  requestConsent,
+  saveToken,
+  setCredentials,
+  validateOrRefreshClientCredentials
+} from './auth/auth-client'
 
 const { google } = require('googleapis')
 
@@ -27,15 +35,23 @@ const listFiles = async () => {
     console.log(`${file.name} (${file.id})`)
   })
 }
+const SCOPES = ['profile', 'email', 'https://www.googleapis.com/auth/drive.metadata.readonly']
 
 const main = async () => {
-  const authClient = await authorize()
-  if (!authClient) {
-    console.error('You need to auth first')
-    process.exit(1)
+  // TODO refactor extract a method to return the oauth client
+  try {
+    const credentials = await loadTokenIfExists()
+    await setCredentials(credentials)
+    await validateOrRefreshClientCredentials()
+  } catch (error) {
+    console.error(error)
+    const code = await requestConsent(SCOPES)
+    const credentials = await generateToken(code)
+    await setCredentials(credentials)
+    await saveToken(credentials)
   }
 
-  google.options({ auth: authClient });
+  google.options({ auth: client })
 
   return listFiles()
 }

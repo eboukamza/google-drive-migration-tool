@@ -21,9 +21,7 @@ https://developers.google.com/drive/api/quickstart/nodejs?hl=en_US#authorize_cre
 
 As described in the guide
 - Create Credentials of type OAuth client ID
-- Save the downloaded JSON file as `credentials.json`, and move the file to your working directory.
-
-
+- Create an .env file from .env template (cp .env_template .env) and set up from Oauth Credentials.
 
 References
 ---
