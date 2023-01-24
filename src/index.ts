@@ -6,7 +6,7 @@ import { Config } from "./config";
 
 const { google } = require('googleapis')
 
-const SCOPES = ['profile', 'email', 'https://www.googleapis.com/auth/drive.metadata.readonly']
+const SCOPES = ['email', 'https://www.googleapis.com/auth/drive']
 
 const main = async () => {
 

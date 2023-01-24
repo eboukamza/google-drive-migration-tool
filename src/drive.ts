@@ -31,4 +31,17 @@ const listFiles = async (owner: string, pageToken?: string) => {
   }
 }
 
-export { listFiles }
+const copyFileWithName = async ({ fileId, name }: { fileId: string; name: string }) => {
+  const res = await drive.files.copy({
+    fileId,
+    fields: '*',
+    requestBody: { name }
+  })
+
+  if (res.status !== 200) {
+    throw new Error('Copy fail')
+  }
+  console.log('Copied', name)
+}
+
+export { listFiles, copyFileWithName }
