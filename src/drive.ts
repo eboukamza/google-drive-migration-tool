@@ -4,14 +4,18 @@ type FileList = drive_v3.Schema$FileList
 
 const drive = google.drive({ version: 'v3' })
 
-/**
- * List files owned by an email
- */
-const listFiles = async (owner: string, pageToken?: string) => {
+type MyFile = {
+  id: string,
+  parent: string,
+  name: string,
+  mimeType: string
+}
+
+const listFilesByQuery = async (query: string, pageToken?: string): Promise<MyFile[]> => {
   const res = await drive.files.list({
     pageSize: 1000,
     fields: 'nextPageToken, files(id, name, parents, mimeType)',
-    q: `'${owner}' in owners`,
+    q: query,
     pageToken
   })
 
@@ -19,16 +23,45 @@ const listFiles = async (owner: string, pageToken?: string) => {
   const files = data.files
   if (!files || files?.length === 0) {
     console.log('No files found.')
-    return
+    return []
   }
 
-  files.map((file) => {
-    console.log(`${file.id} ${file.parents} (${file.name}, ${file.mimeType})`)
+  const fileList: MyFile[] = files.map((file) => {
+    return {
+      id: file.id ?? '',
+      parent: file.parents && file.parents.length > 0 ? file.parents[0] : '',
+      name: file.name ?? '',
+      mimeType: file.mimeType ?? ''
+    }
   })
 
   if (data.nextPageToken) {
-    await listFiles(owner, data.nextPageToken)
+    const nextFiles = await listFilesByQuery(query, data.nextPageToken)
+    fileList.concat(nextFiles)
   }
+
+  return fileList
+}
+
+/**
+ * List files owned by an email
+ */
+const listAllOwnedFiles = async (owner: string) => {
+  const query = `'${owner}' in owners`
+  const fileList = await listFilesByQuery(query)
+  fileList
+    .map(({ id, parent, name, mimeType }) =>
+      console.log(`${id} ${parent} (${name}, ${mimeType})`)
+    )
+}
+
+const listOwnedFolders = async (owner: string) => {
+  const query = `'${owner}' in owners and mimeType = 'application/vnd.google-apps.folder'`
+  const fileList = await listFilesByQuery(query)
+  fileList
+    .map(({ id, parent, name, mimeType }) =>
+      console.log(`${id} ${parent} (${name}, ${mimeType})`)
+    )
 }
 
 const copyFileWithName = async ({ fileId, name }: { fileId: string; name: string }) => {
@@ -44,4 +77,4 @@ const copyFileWithName = async ({ fileId, name }: { fileId: string; name: string
   console.log('Copied', name)
 }
 
-export { listFiles, copyFileWithName }
+export { listAllOwnedFiles, listOwnedFolders, copyFileWithName }
