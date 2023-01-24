@@ -16,7 +16,7 @@ Get token with Google API node client
 based on https://developers.google.com/drive/api/quickstart/nodejs?hl=en_US
 
 
-Uses https://www.npmjs.com/package/@google-cloud/local-auth to retrieve the token.
+Inspired on https://www.npmjs.com/package/@google-cloud/local-auth to retrieve the token.
 https://developers.google.com/drive/api/quickstart/nodejs?hl=en_US#authorize_credentials_for_a_desktop_application
 
 As described in the guide

@@ -8,33 +8,11 @@ import {
   setCredentials,
   validateOrRefreshClientCredentials
 } from './auth/auth-client'
+import { listFiles } from "./drive";
+import { Config } from "./config";
 
 const { google } = require('googleapis')
 
-type FileList = drive_v3.Schema$FileList
-
-/**
- * Lists the names and IDs of up to 10 files.
- */
-const listFiles = async () => {
-  const drive = google.drive({ version: 'v3' })
-  const res = await drive.files.list({
-    pageSize: 10,
-    fields: 'nextPageToken, files(id, name)'
-  })
-
-  const data: FileList = res.data
-  const files = data.files
-  if (!files || files?.length === 0) {
-    console.log('No files found.')
-    return
-  }
-
-  console.log('Files:')
-  files.map((file) => {
-    console.log(`${file.name} (${file.id})`)
-  })
-}
 const SCOPES = ['profile', 'email', 'https://www.googleapis.com/auth/drive.metadata.readonly']
 
 const main = async () => {
@@ -53,7 +31,8 @@ const main = async () => {
 
   google.options({ auth: client })
 
-  return listFiles()
+  const emailOrigin = Config.EMAIL_SRC as string
+  return listFiles(emailOrigin)
 }
 
 main().catch(console.error)
