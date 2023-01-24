@@ -91,4 +91,19 @@ const requestConsent = (scope: string[]): Promise<string> => {
   })
 }
 
-export { client, requestConsent, generateToken, saveToken, setCredentials, loadTokenIfExists, validateOrRefreshClientCredentials }
+const authorize = async (scopes: string[]) => {
+  try {
+    const credentials = await loadTokenIfExists()
+    await setCredentials(credentials)
+    await validateOrRefreshClientCredentials()
+  } catch (error) {
+    console.error(error)
+    const code = await requestConsent(scopes)
+    const credentials = await generateToken(code)
+    await setCredentials(credentials)
+    await saveToken(credentials)
+  }
+  return client
+}
+
+export { client, authorize }
