@@ -1,21 +1,24 @@
-import {
-  authorize
-} from "./auth/auth-client";
-import { listOwnedFolders } from "./drive";
-import { Config } from "./config";
+import { authorize } from './auth/auth-client'
+import { driveUtils } from './drive'
+import { Config } from './config'
 
 const { google } = require('googleapis')
 
 const SCOPES = ['email', 'https://www.googleapis.com/auth/drive']
 
-const main = async () => {
+const doMigration = async () => {
 
   const client = await authorize(SCOPES)
   google.options({ auth: client })
 
-  // list files
-  const emailOrigin = Config.EMAIL_SRC as string
-  return listOwnedFolders(emailOrigin)
+  const migrationSource = await driveUtils.searchMigrationSource(Config.MIGRATION_SOURCE)
+  const destDir = await driveUtils.createFolder(
+    Config.MIGRATION_DEST,
+    migrationSource.parents ? migrationSource.parents[0] : undefined
+  )
+
+  await driveUtils.copyRecursive(migrationSource, destDir)
+  console.log('Done!')
 }
 
-main().catch(console.error)
+doMigration().catch(console.error)

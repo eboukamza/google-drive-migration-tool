@@ -4,7 +4,7 @@
     "declarationMap": true,
     "module": "CommonJS",
     "moduleResolution": "node",
-    "target": "es2021",
+    "target": "es2015",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

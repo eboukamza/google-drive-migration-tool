@@ -29,3 +29,8 @@ References
 Google Auth reference:
 https://github.com/googleapis/google-auth-library-nodejs#oauth2
 https://cloud.google.com/nodejs/docs/reference/google-auth-library/latest
+
+
+Instructions
+---
+Trash should be empty
