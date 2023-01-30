@@ -21,4 +21,18 @@ const doMigration = async () => {
   console.log('Done!')
 }
 
-doMigration().catch(console.error)
+const listOwnedFiles = async () => {
+  const client = await authorize(SCOPES)
+  google.options({ auth: client })
+
+  const email = Config.EMAIL_SRC
+  const files = await driveUtils.listAllOwnedFiles(email)
+
+  files.map(file => {
+    console.log(`${file.name} (${file.id})`)
+  })
+}
+
+//doMigration().catch(console.error)
+
+listOwnedFiles().catch(console.error)
