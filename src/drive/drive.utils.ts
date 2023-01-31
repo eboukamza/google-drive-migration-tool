@@ -89,6 +89,9 @@ const buildDriveUtils = (drive: drive_v3.Drive) => {
       }
     })
 
+    if (res.status !== 200) {
+      throw new Error('Create fail')
+    }
     console.log('Created folder: ', res.data)
     return res.data
   }
