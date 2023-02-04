@@ -51,7 +51,8 @@ const validateOrRefreshClientCredentials = async (): Promise<void> => {
       await saveToken(client.credentials)
     }
   } catch (error) {
-    console.log(error)
+    const { message } = error as Error
+    console.log(message)
     throw new Error('No valid credentials or unable to refresh token')
   }
 }
@@ -91,13 +92,12 @@ const requestConsent = (scope: string[]): Promise<string> => {
   })
 }
 
-const authorize = async (scopes: string[]) => {
+const authorize = async (scopes: string[]): Promise<OAuth2Client> => {
   try {
     const credentials = await loadTokenIfExists()
     await setCredentials(credentials)
     await validateOrRefreshClientCredentials()
   } catch (error) {
-    console.error(error)
     const code = await requestConsent(scopes)
     const credentials = await generateToken(code)
     await setCredentials(credentials)
@@ -106,4 +106,10 @@ const authorize = async (scopes: string[]) => {
   return client
 }
 
-export { client, authorize }
+const getEmail = async () => {
+  const accessToken = client.credentials.access_token ?? ''
+  const tokenInfo = await client.getTokenInfo(accessToken)
+  return tokenInfo.email
+}
+
+export { client, authorize, getEmail }

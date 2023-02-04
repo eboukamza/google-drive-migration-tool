@@ -59,7 +59,7 @@ const buildDriveUtils = (drive: drive_v3.Drive) => {
     }
 
     const [file] = files
-    console.log('Migration source found', file)
+    console.log(`Migration source found ${file.name} (${file.id})`)
     return file
   }
 
@@ -76,7 +76,7 @@ const buildDriveUtils = (drive: drive_v3.Drive) => {
     if (res.status !== 200) {
       throw new Error('Copy fail')
     }
-    console.log('Copied', name)
+    console.log(`"${name}" OK`)
   }
 
   const createFolder = async (name: string, parentId?: string): Promise<drive_v3.Schema$File> => {
