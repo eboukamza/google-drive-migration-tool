@@ -2,6 +2,8 @@
 
 Transfer the ownership between two different domains by coping folder hierarchy and files.
 
+This tool is EXPERIMENTAL and is NOT an official tool. This tool is released WITHOUT ANY warranty of any kind.
+
 | Source                 | Dest                   |
 | ---------------------- | ---------------------- |
 | Google Workspace       | Google Account (gmail) |
@@ -10,7 +12,9 @@ Transfer the ownership between two different domains by coping folder hierarchy 
 
 ## Prerequisites
 
-Follow Develop on Google Workspace guide to set up OAuth client id credentials
+node +16
+
+Follow Develop on Google Workspace guide to set up an OAuth consent screen and OAuth Credentials
 
 https://developers.google.com/workspace/guides/get-started?hl=en_US
 
@@ -19,16 +23,17 @@ https://developers.google.com/workspace/guides/get-started?hl=en_US
 3. Configure OAuth consent screen
 4. Create OAuth credentials
 
-5. Create an .env file from .env template (`cp .env_template .env`) and set up env vars.
+5. Create an .env file from .env_template (`cp .env_template .env`) and set up env vars.
+6. Build the project `yarn && yarn build`
 
 ## Instructions
 
 Trash should be empty
 
-1. Share (with role Editor) files and folders to be transferred with destination account.
+1. Share (with role Editor) files and folders to be transferred with the destination account.
 2. Create 'migrationSource' folder in the destination Drive account.
 3. Put inside all files and folders to be migrated
-4. Run the script
+4. Run the script `./bin/google-drive-migration-tool migrate`
 
 First time the script opens the browser to request the permissions to read and write files in Drive.
 Credentials are stored in a file named token.json. If you want to change the user you need to delete this file.
